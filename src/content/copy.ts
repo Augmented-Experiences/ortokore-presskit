@@ -62,7 +62,6 @@ export type UiCopy = {
   leadTitle: string;
   leadName: string;
   leadEmail: string;
-  leadMessage: string;
   leadSubmit: string;
   leadSent: string;
   leadError: string;
@@ -334,13 +333,12 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Imagen no disponible",
-    leadTitle: "Para información de fechas y bookings",
+    leadTitle: "Mándame tus datos y te contacto",
     leadName: "Nombre",
     leadEmail: "Correo",
-    leadMessage: "Mensaje",
     leadSubmit: "Enviar",
-    leadSent: "Se abrió tu aplicación de correo con el mensaje listo para enviar.",
-    leadError: "Revisa el nombre, el correo y el mensaje.",
+    leadSent: "Se abrió tu correo. Tus datos van listos para enviar.",
+    leadError: "Revisa el nombre y el correo.",
   },
   en: {
     kit: "Press kit",
@@ -433,13 +431,12 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Image unavailable",
-    leadTitle: "For dates and bookings",
+    leadTitle: "Send me your details and I'll write you.",
     leadName: "Name",
     leadEmail: "Email",
-    leadMessage: "Message",
     leadSubmit: "Send",
-    leadSent: "Your mail app opened with the message ready to send.",
-    leadError: "Check the name, email, and message.",
+    leadSent: "Your mail app opened. Your details are ready to send.",
+    leadError: "Check the name and the email.",
   },
   nl: {
     kit: "Perskit",
@@ -532,13 +529,12 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Beeld niet beschikbaar",
-    leadTitle: "Voor data en bookings",
+    leadTitle: "Stuur me je gegevens, ik schrijf je.",
     leadName: "Naam",
     leadEmail: "E-mail",
-    leadMessage: "Bericht",
     leadSubmit: "Versturen",
-    leadSent: "Je mailprogramma is geopend met het bericht klaar om te versturen.",
-    leadError: "Controleer de naam, het e-mailadres en het bericht.",
+    leadSent: "Je mailprogramma is geopend. Je gegevens staan klaar om te versturen.",
+    leadError: "Controleer de naam en het e-mailadres.",
   },
 };
 

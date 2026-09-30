@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { SafeImage } from "@/components/safe-image";
 import {
   BIO_FILES,
@@ -84,14 +83,13 @@ export function PressKit({ bios }: { bios: Bios }) {
     const data = new FormData(event.currentTarget);
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!name || !emailOk || !message) {
+    if (!name || !emailOk) {
       setLeadStatus("error");
       return;
     }
-    const subject = encodeURIComponent(`${t.leadTitle} — OrtoKore`);
-    const body = encodeURIComponent(`${t.leadName}: ${name}\n${t.leadEmail}: ${email}\n\n${message}`);
+    const subject = encodeURIComponent("OrtoKore");
+    const body = encodeURIComponent(`${t.leadName}: ${name}\n${t.leadEmail}: ${email}`);
     window.location.href = `mailto:djortokore@gmail.com?subject=${subject}&body=${body}`;
     setLeadStatus("sent");
   }
@@ -468,19 +466,6 @@ export function PressKit({ bios }: { bios: Bios }) {
               required
               onChange={() => setLeadStatus(null)}
               className={fieldClass}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lead-message" className="font-mono text-[10px] tracking-[0.18em] text-white uppercase">
-              {t.leadMessage}
-            </Label>
-            <Textarea
-              id="lead-message"
-              name="message"
-              required
-              rows={5}
-              onChange={() => setLeadStatus(null)}
-              className={`${fieldClass} min-h-32 py-2`}
             />
           </div>
           <Button type="submit" className={solidButton}>
