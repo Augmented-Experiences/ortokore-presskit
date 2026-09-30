@@ -29,7 +29,12 @@ export const metadata: Metadata = {
   title: "OrtoKore — Kit de prensa",
   description:
     "Kit de prensa de OrtoKore (Oscar Cartagena): biografía en español, inglés y neerlandés, marcas y fotografías.",
-  icons: { icon: "/brand/ortokore-logo.png" },
+  icons: {
+    icon: [
+      { url: "/brand/ortokore-logo.svg", type: "image/svg+xml" },
+      { url: "/brand/ortokore-logo.png", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

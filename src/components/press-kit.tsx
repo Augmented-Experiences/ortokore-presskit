@@ -426,31 +426,29 @@ function PressWall({
   missingLabel: string;
 }) {
   return (
-    <ul className={wall === "flyer" ? "columns-1 gap-1.5 lg:columns-3" : "columns-2 gap-1.5"}>
-      {items.map((item) => {
-        const wide = item.width / item.height >= (wall === "flyer" ? 1.45 : 1.25);
-        return (
-          <li
-            key={item.file}
-            className={`mb-1.5 ${wide ? "wall-span" : "break-inside-avoid"}`}
+    <ul
+      className={`mx-auto grid max-w-6xl gap-1.5 md:grid-cols-3 xl:grid-cols-4 ${
+        wall === "flyer" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2"
+      }`}
+    >
+      {items.map((item) => (
+        <li key={item.file} className="min-w-0">
+          <a
+            href={item.src}
+            download={item.file}
+            className="block cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:brightness-110"
           >
-            <a
-              href={item.src}
-              download={item.file}
-              className="block cursor-pointer transition duration-200 hover:-translate-y-1 hover:brightness-110"
-            >
-              <SafeImage
-                src={item.src}
-                alt={wall === "photo" ? "Oscar Cartagena" : "OrtoKore"}
-                width={item.width}
-                height={item.height}
-                missingLabel={missingLabel}
-                className="block w-full bg-black"
-              />
-            </a>
-          </li>
-        );
-      })}
+            <SafeImage
+              src={item.src}
+              alt={wall === "photo" ? "Oscar Cartagena" : "OrtoKore"}
+              width={item.width}
+              height={item.height}
+              missingLabel={missingLabel}
+              className="block h-auto w-full bg-black"
+            />
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }

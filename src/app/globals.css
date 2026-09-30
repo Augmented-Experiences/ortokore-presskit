@@ -162,9 +162,3 @@
     line-height: 1.48;
   }
 }
-
-@media (min-width: 1024px) {
-  .wall-span {
-    column-span: all;
-  }
-}
