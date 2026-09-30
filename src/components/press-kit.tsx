@@ -29,6 +29,8 @@ const solidButton =
   "h-8 rounded-none bg-white px-2.5 font-mono text-[10px] tracking-[0.18em] text-black uppercase hover:bg-neutral-200";
 const fieldClass =
   "h-10 rounded-none border-white/70 bg-black px-3 text-base text-white focus-visible:border-white focus-visible:ring-white/40";
+const presskitButton =
+  "h-9 rounded-none bg-white px-3 font-mono text-[11px] tracking-[0.06em] text-black normal-case hover:bg-neutral-200";
 
 export function PressKit({ bios }: { bios: Bios }) {
   const [locale, setLocale] = useState<Locale>("es");
@@ -201,6 +203,15 @@ export function PressKit({ bios }: { bios: Bios }) {
         >
           <article className="lg:col-span-6 lg:col-start-1 lg:row-start-1">
             <Rule n="02" label={t.biosTitle} />
+            <div className="mb-8 flex flex-wrap gap-2">
+              {LOCALES.map((code) => (
+                <Button key={code} asChild variant="default" className={presskitButton}>
+                  <a href={PRESS_PDFS[code].href} download={PRESS_PDFS[code].file}>
+                    {`Presskit PDF · ${LANGUAGE_NAME[code]}`}
+                  </a>
+                </Button>
+              ))}
+            </div>
             {paragraphs.length > 0 ? (
               <div className="essay max-w-[38rem]">
                 {paragraphs.map((paragraph) => (
@@ -439,8 +450,19 @@ export function PressKit({ bios }: { bios: Bios }) {
         </section>
 
         <section id="booking" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
-        <h2 className="max-w-xl font-serif text-3xl leading-tight sm:text-4xl">{t.leadTitle}</h2>
-        <form className="mt-8 max-w-xl space-y-5" onSubmit={sendLead} noValidate>
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
+          <SafeImage
+            src={marks.logo.svg.src}
+            fallbackSrc={marks.logo.png.src}
+            alt="OrtoKore"
+            width={marks.logo.svg.width}
+            height={marks.logo.svg.height}
+            missingLabel={t.missingImage}
+            className="h-auto w-52 shrink-0 bg-black object-contain sm:w-64"
+          />
+          <div className="w-full min-w-0 max-w-xl">
+        <h2 className="font-serif text-3xl leading-tight sm:text-4xl">{t.leadTitle}</h2>
+        <form className="mt-8 space-y-5" onSubmit={sendLead} noValidate>
           <div className="space-y-2">
             <Label htmlFor="lead-name" className="font-mono text-[10px] tracking-[0.18em] text-white uppercase">
               {t.leadName}
@@ -482,6 +504,8 @@ export function PressKit({ bios }: { bios: Bios }) {
             </p>
           ) : null}
         </form>
+          </div>
+        </div>
         </section>
       </main>
     </div>
