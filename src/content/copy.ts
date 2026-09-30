@@ -48,6 +48,7 @@ export type UiCopy = {
   flyersEmpty: string;
   photoLabel: Record<PhotoKind, string>;
   downloadsTitle: string;
+  pressPdf: string;
   print: string;
   web: string;
   photographs: string;
@@ -316,6 +317,7 @@ export const ui: Record<Locale, UiCopy> = {
       performance: "Foto de performance",
     },
     downloadsTitle: "Archivo",
+    pressPdf: "Kit de prensa PDF",
     print: "Impresión",
     web: "Web",
     photographs: "Fotografías",
@@ -408,6 +410,7 @@ export const ui: Record<Locale, UiCopy> = {
       performance: "Performance photo",
     },
     downloadsTitle: "Archive",
+    pressPdf: "Press kit PDF",
     print: "Print",
     web: "Web",
     photographs: "Photographs",
@@ -500,6 +503,7 @@ export const ui: Record<Locale, UiCopy> = {
       performance: "Performancefoto",
     },
     downloadsTitle: "Archief",
+    pressPdf: "Perskit PDF",
     print: "Druk",
     web: "Web",
     photographs: "Foto’s",
@@ -512,6 +516,12 @@ export const ui: Record<Locale, UiCopy> = {
     missingImage: "Beeld niet beschikbaar",
     booking: "Boekingscontact kan later worden toegevoegd.",
   },
+};
+
+export const PRESS_PDFS: Record<Locale, { href: string; file: string }> = {
+  es: { href: "/kits/ortokore-press-kit-es.pdf", file: "ortokore-press-kit-es.pdf" },
+  en: { href: "/kits/ortokore-press-kit-en.pdf", file: "ortokore-press-kit-en.pdf" },
+  nl: { href: "/kits/ortokore-press-kit-nl.pdf", file: "ortokore-press-kit-nl.pdf" },
 };
 
 export const presenceLinks = [

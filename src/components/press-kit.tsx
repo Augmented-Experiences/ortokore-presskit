@@ -11,6 +11,7 @@ import {
   flyers,
   marks,
   photos,
+  PRESS_PDFS,
   players,
   presenceLinks,
   ui,
@@ -367,6 +368,18 @@ export function PressKit({ bios }: { bios: Bios }) {
         <section id="downloads" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
           <Rule n="09" label={t.downloadsTitle} />
           <div className="space-y-10">
+            <FileGroup title={t.pressPdf}>
+              {LOCALES.map((code, index) => (
+                <FileRow
+                  key={code}
+                  n={String(index + 1).padStart(2, "0")}
+                  label={`${code.toUpperCase()} · ${LANGUAGE_NAME[code]}`}
+                  file={PRESS_PDFS[code].file}
+                  href={PRESS_PDFS[code].href}
+                  action={t.download}
+                />
+              ))}
+            </FileGroup>
             <FileGroup title={t.print}>
               <FileRow
                 n="01"
