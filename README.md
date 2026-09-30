@@ -1,0 +1,18 @@
+# OrtoKore — kit de prensa
+
+Sitio de una página con la biografía de Oscar Cartagena (OrtoKore) en español, inglés y neerlandés, más el logo, el escudo y las fotografías de prensa.
+
+## Arranque local
+
+Requiere Node.js 20 o superior.
+
+```bash
+npm install
+npm run dev -- --hostname 0.0.0.0 --port 4721
+```
+
+Abre [http://127.0.0.1:4721](http://127.0.0.1:4721).
+
+El selector ES / EN / NL cambia todo el texto. La biografía, una por idioma, está en `public/bios/`. El logo y el escudo en Adobe Illustrator, más SVG y PNG, están en `public/brand/`. Las fotos están en `public/press/` y los flyers en `public/flyers/`. Un clic descarga el archivo.
+
+El contacto de booking no está incluido: se puede añadir más adelante.
