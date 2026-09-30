@@ -15,4 +15,4 @@ Abre [http://127.0.0.1:4721](http://127.0.0.1:4721).
 
 El selector ES / EN / NL cambia todo el texto. La biografía, una por idioma, está en `public/bios/`. El logo y el escudo en Adobe Illustrator, más SVG y PNG, están en `public/brand/`. Las fotos están en `public/press/` y los flyers en `public/flyers/`. Un clic abre la imagen completa; la descarga está dentro de esa vista. El archivo incluye un PDF del kit por idioma en `public/kits/`. Para regenerarlos: `node --experimental-strip-types scripts/build-press-pdfs.ts`.
 
-El contacto de booking no está incluido: se puede añadir más adelante.
+El formulario de fechas abre la aplicación de correo del visitante con el nombre, el correo y el mensaje. La dirección de destino no se muestra en la página.

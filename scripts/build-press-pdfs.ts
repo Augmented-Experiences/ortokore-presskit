@@ -3,7 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fontkit from "@pdf-lib/fontkit";
-import { PDFDocument, PDFName, PDFString, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
+import { PDFArray, PDFDocument, PDFName, PDFString, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 import {
   BIO_FILES,
   LANGUAGE_NAME,
@@ -12,7 +12,7 @@ import {
   presenceLinks,
   ui,
   type Locale,
-} from "../src/content/copy.ts";
+} from "../src/content/copy";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PAGE_W = 595.28;
@@ -369,9 +369,8 @@ class Sheet {
       );
       const key = PDFName.of("Annots");
       const existing = link.page.node.lookup(key);
-      if (existing) {
-        const arr = existing;
-        (arr as { push: (item: unknown) => void }).push(annot);
+      if (existing instanceof PDFArray) {
+        existing.push(annot);
       } else {
         link.page.node.set(key, ctx.obj([annot]));
       }

@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { SafeImage } from "@/components/safe-image";
 import {
   BIO_FILES,
@@ -25,10 +28,13 @@ const inkButton =
   "h-8 rounded-none border-white/70 bg-black px-2.5 font-mono text-[10px] tracking-[0.18em] text-white uppercase hover:bg-white hover:text-black";
 const solidButton =
   "h-8 rounded-none bg-white px-2.5 font-mono text-[10px] tracking-[0.18em] text-black uppercase hover:bg-neutral-200";
+const fieldClass =
+  "h-10 rounded-none border-white/70 bg-black px-3 text-base text-white focus-visible:border-white focus-visible:ring-white/40";
 
 export function PressKit({ bios }: { bios: Bios }) {
   const [locale, setLocale] = useState<Locale>("es");
   const [copied, setCopied] = useState<string | null>(null);
+  const [leadStatus, setLeadStatus] = useState<"sent" | "error" | null>(null);
   const t = ui[locale];
   const bio = bios[locale];
   const paragraphs = bio ? bio.split(/\n+/).filter((part) => part.trim().length > 0) : [];
@@ -72,6 +78,23 @@ export function PressKit({ bios }: { bios: Bios }) {
 
   const copyLabel =
     copied === locale ? t.copied : copied === `fail:${locale}` ? t.copyFailed : t.copy;
+
+  function sendLead(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const name = String(data.get("name") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!name || !emailOk || !message) {
+      setLeadStatus("error");
+      return;
+    }
+    const subject = encodeURIComponent(`${t.leadTitle} — OrtoKore`);
+    const body = encodeURIComponent(`${t.leadName}: ${name}\n${t.leadEmail}: ${email}\n\n${message}`);
+    window.location.href = `mailto:djortokore@gmail.com?subject=${subject}&body=${body}`;
+    setLeadStatus("sent");
+  }
 
   return (
     <div className="min-h-full overflow-x-clip bg-black text-white">
@@ -201,7 +224,7 @@ export function PressKit({ bios }: { bios: Bios }) {
             </div>
           </article>
 
-          <figure className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:-mt-6 xl:-mt-24">
+          <figure className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-8">
             <SafeImage
               src={marks.crest.svg.src}
               fallbackSrc={marks.crest.png.src}
@@ -416,11 +439,66 @@ export function PressKit({ bios }: { bios: Bios }) {
             </FileGroup>
           </div>
         </section>
-      </main>
 
-      <footer className="border-t border-white px-4 py-6 sm:px-8">
-        <p className="font-mono text-[10px] tracking-[0.16em] text-white/55 uppercase">{t.booking}</p>
-      </footer>
+        <section id="booking" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
+        <h2 className="max-w-xl font-serif text-3xl leading-tight sm:text-4xl">{t.leadTitle}</h2>
+        <form className="mt-8 max-w-xl space-y-5" onSubmit={sendLead} noValidate>
+          <div className="space-y-2">
+            <Label htmlFor="lead-name" className="font-mono text-[10px] tracking-[0.18em] text-white uppercase">
+              {t.leadName}
+            </Label>
+            <Input
+              id="lead-name"
+              name="name"
+              autoComplete="name"
+              required
+              onChange={() => setLeadStatus(null)}
+              className={fieldClass}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lead-email" className="font-mono text-[10px] tracking-[0.18em] text-white uppercase">
+              {t.leadEmail}
+            </Label>
+            <Input
+              id="lead-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              onChange={() => setLeadStatus(null)}
+              className={fieldClass}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lead-message" className="font-mono text-[10px] tracking-[0.18em] text-white uppercase">
+              {t.leadMessage}
+            </Label>
+            <Textarea
+              id="lead-message"
+              name="message"
+              required
+              rows={5}
+              onChange={() => setLeadStatus(null)}
+              className={`${fieldClass} min-h-32 py-2`}
+            />
+          </div>
+          <Button type="submit" className={solidButton}>
+            {t.leadSubmit}
+          </Button>
+          {leadStatus === "sent" ? (
+            <p role="status" className="font-serif text-lg">
+              {t.leadSent}
+            </p>
+          ) : null}
+          {leadStatus === "error" ? (
+            <p role="alert" className="font-serif text-lg">
+              {t.leadError}
+            </p>
+          ) : null}
+        </form>
+        </section>
+      </main>
     </div>
   );
 }

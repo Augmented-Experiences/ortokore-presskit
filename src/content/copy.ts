@@ -59,7 +59,13 @@ export type UiCopy = {
   crest: string;
   illustrator: string;
   missingImage: string;
-  booking: string;
+  leadTitle: string;
+  leadName: string;
+  leadEmail: string;
+  leadMessage: string;
+  leadSubmit: string;
+  leadSent: string;
+  leadError: string;
 };
 
 export const LOCALES: Locale[] = ["es", "en", "nl"];
@@ -328,7 +334,13 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Imagen no disponible",
-    booking: "El contacto de booking se puede añadir más adelante.",
+    leadTitle: "Para información de fechas y bookings",
+    leadName: "Nombre",
+    leadEmail: "Correo",
+    leadMessage: "Mensaje",
+    leadSubmit: "Enviar",
+    leadSent: "Se abrió tu aplicación de correo con el mensaje listo para enviar.",
+    leadError: "Revisa el nombre, el correo y el mensaje.",
   },
   en: {
     kit: "Press kit",
@@ -421,7 +433,13 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Image unavailable",
-    booking: "Booking contact can be added later.",
+    leadTitle: "For dates and bookings",
+    leadName: "Name",
+    leadEmail: "Email",
+    leadMessage: "Message",
+    leadSubmit: "Send",
+    leadSent: "Your mail app opened with the message ready to send.",
+    leadError: "Check the name, email, and message.",
   },
   nl: {
     kit: "Perskit",
@@ -514,7 +532,13 @@ export const ui: Record<Locale, UiCopy> = {
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
     missingImage: "Beeld niet beschikbaar",
-    booking: "Boekingscontact kan later worden toegevoegd.",
+    leadTitle: "Voor data en bookings",
+    leadName: "Naam",
+    leadEmail: "E-mail",
+    leadMessage: "Bericht",
+    leadSubmit: "Versturen",
+    leadSent: "Je mailprogramma is geopend met het bericht klaar om te versturen.",
+    leadError: "Controleer de naam, het e-mailadres en het bericht.",
   },
 };
 
