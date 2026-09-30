@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SafeImage } from "@/components/safe-image";
 import {
-  BIO_FILES,
   LANGUAGE_NAME,
   LOCALES,
   flyers,
@@ -225,9 +224,9 @@ export function PressKit({ bios }: { bios: Bios }) {
               <Button type="button" variant="outline" disabled={!bio} onClick={copyBio} className={inkButton}>
                 {copyLabel}
               </Button>
-              <Button asChild variant="default" className={solidButton}>
-                <a href={`/bios/${BIO_FILES[locale]}`} download={BIO_FILES[locale]}>
-                  {t.download}
+              <Button asChild variant="default" className={presskitButton}>
+                <a href={PRESS_PDFS[locale].href} download={PRESS_PDFS[locale].file}>
+                  {`Presskit PDF · ${LANGUAGE_NAME[locale]}`}
                 </a>
               </Button>
             </div>
@@ -433,18 +432,6 @@ export function PressKit({ bios }: { bios: Bios }) {
               <FileRow n="04" label={`${t.logo} · PNG`} file={marks.logo.png.file} href={marks.logo.png.src} action={t.download} />
               <FileRow n="05" label={`${t.crest} · SVG`} file={marks.crest.svg.file} href={marks.crest.svg.src} action={t.download} />
               <FileRow n="06" label={`${t.crest} · PNG`} file={marks.crest.png.file} href={marks.crest.png.src} action={t.download} />
-            </FileGroup>
-            <FileGroup title={t.biography}>
-              {LOCALES.map((code, index) => (
-                <FileRow
-                  key={code}
-                  n={String(index + 1).padStart(2, "0")}
-                  label={LANGUAGE_NAME[code]}
-                  file={BIO_FILES[code]}
-                  href={`/bios/${BIO_FILES[code]}`}
-                  action={t.download}
-                />
-              ))}
             </FileGroup>
           </div>
         </section>
