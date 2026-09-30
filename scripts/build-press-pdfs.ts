@@ -45,15 +45,12 @@ function whiteLogoPng(): Uint8Array {
     `
 from PIL import Image
 im = Image.open(${JSON.stringify(path.join(root, "public/brand/ortokore-logo.png"))}).convert("RGBA")
-px = im.load()
-w, h = im.size
-for y in range(h):
-    for x in range(w):
-        r, g, b, a = px[x, y]
-        px[x, y] = (255, 255, 255, a)
 im = im.crop(im.getbbox())
-im.thumbnail((320, 320), Image.Resampling.LANCZOS)
-im.save(${JSON.stringify(out)})
+pad = 36
+canvas = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2), (0, 0, 0, 255))
+canvas.alpha_composite(im, (pad, pad))
+# Opaque black field. White linework stays white; clear holes stay black.
+canvas.convert("RGB").resize((320, 320), Image.Resampling.LANCZOS).save(${JSON.stringify(out)})
 `,
   ]);
   return new Uint8Array(readFileSync(out));
@@ -418,8 +415,12 @@ async function build(locale: Locale, logoBytes: Uint8Array) {
   return { dest, bytes: bytes.length, bio };
 }
 
-const logoBytes = whiteLogoPng();
-for (const locale of LOCALES) {
-  const result = await build(locale, logoBytes);
-  console.log(`${locale} ${result.bytes} ${result.dest}`);
+async function main() {
+  const logoBytes = whiteLogoPng();
+  for (const locale of LOCALES) {
+    const result = await build(locale, logoBytes);
+    console.log(`${locale} ${result.bytes} ${result.dest}`);
+  }
 }
+
+main();
