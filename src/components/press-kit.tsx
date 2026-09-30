@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { SafeImage } from "@/components/safe-image";
 import {
   BIO_FILES,
@@ -341,12 +342,26 @@ export function PressKit({ bios }: { bios: Bios }) {
 
         <section id="gallery" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
           <Rule n="07" label={t.galleryTitle} />
-          <PressWall items={photos} wall="photo" missingLabel={t.missingImage} />
+          <PressWall
+            items={photos}
+            wall="photo"
+            missingLabel={t.missingImage}
+            downloadLabel={t.download}
+            closeLabel={t.close}
+            title={t.galleryTitle}
+          />
         </section>
 
         <section id="flyers" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
           <Rule n="08" label={t.flyersTitle} />
-          <PressWall items={flyers} wall="flyer" missingLabel={t.missingImage} />
+          <PressWall
+            items={flyers}
+            wall="flyer"
+            missingLabel={t.missingImage}
+            downloadLabel={t.download}
+            closeLabel={t.close}
+            title={t.flyersTitle}
+          />
         </section>
 
         <section id="downloads" className="scroll-mt-16 border-t border-white px-4 py-12 sm:px-8 sm:py-16">
@@ -420,36 +435,90 @@ function PressWall({
   items,
   wall,
   missingLabel,
+  downloadLabel,
+  closeLabel,
+  title,
 }: {
   items: PressFile[];
   wall: "flyer" | "photo";
   missingLabel: string;
+  downloadLabel: string;
+  closeLabel: string;
+  title: string;
 }) {
+  const [open, setOpen] = useState<PressFile | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   return (
-    <ul
-      className={`mx-auto max-w-6xl gap-1.5 md:columns-3 xl:columns-4 ${
-        wall === "flyer" ? "columns-1 sm:columns-2" : "columns-2"
-      }`}
-    >
-      {items.map((item) => (
-        <li key={item.file} className="mb-1.5 break-inside-avoid">
-          <a
-            href={item.src}
-            download={item.file}
-            className="block cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:brightness-110"
-          >
-            <SafeImage
-              src={item.src}
-              alt={wall === "photo" ? "Oscar Cartagena" : "OrtoKore"}
-              width={item.width}
-              height={item.height}
-              missingLabel={missingLabel}
-              className="block h-auto w-full bg-black"
-            />
-          </a>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul
+        className={`mx-auto max-w-6xl gap-1.5 md:columns-3 xl:columns-4 ${
+          wall === "flyer" ? "columns-1 sm:columns-2" : "columns-2"
+        }`}
+      >
+        {items.map((item) => (
+          <li key={item.file} className="mb-1.5 break-inside-avoid">
+            <button
+              type="button"
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setOpen(item);
+              }}
+              className="block w-full cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <SafeImage
+                src={item.src}
+                alt={wall === "photo" ? "Oscar Cartagena" : "OrtoKore"}
+                width={item.width}
+                height={item.height}
+                missingLabel={missingLabel}
+                className="block h-auto w-full bg-black"
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <Dialog open={open !== null} onOpenChange={(next) => !next && setOpen(null)}>
+        <DialogContent
+          showCloseButton={false}
+          overlayClassName="bg-black/80"
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            triggerRef.current?.focus();
+          }}
+          className="flex max-h-[92vh] w-[calc(100%-1.5rem)] max-w-5xl flex-col gap-3 overflow-hidden rounded-none bg-black p-3 text-white ring-white/50 sm:max-w-5xl"
+        >
+          <DialogTitle className="sr-only">{title}</DialogTitle>
+          <div className="flex shrink-0 justify-end">
+            <DialogClose asChild>
+              <Button type="button" variant="outline" className={inkButton}>
+                {closeLabel}
+              </Button>
+            </DialogClose>
+          </div>
+          {open ? (
+            <>
+              <div className="flex min-h-0 flex-1 items-center justify-center overflow-auto">
+                <SafeImage
+                  src={open.src}
+                  alt={wall === "photo" ? "Oscar Cartagena" : "OrtoKore"}
+                  width={open.width}
+                  height={open.height}
+                  missingLabel={missingLabel}
+                  className="h-auto max-h-[70vh] w-auto max-w-full bg-black object-contain"
+                />
+              </div>
+              <div className="flex shrink-0 justify-center">
+                <Button asChild variant="outline" className={inkButton}>
+                  <a href={open.src} download={open.file}>
+                    {downloadLabel}
+                  </a>
+                </Button>
+              </div>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

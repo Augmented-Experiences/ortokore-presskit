@@ -53,6 +53,7 @@ export type UiCopy = {
   photographs: string;
   biography: string;
   download: string;
+  close: string;
   logo: string;
   crest: string;
   illustrator: string;
@@ -320,6 +321,7 @@ export const ui: Record<Locale, UiCopy> = {
     photographs: "Fotografías",
     biography: "Biografía",
     download: "Descargar",
+    close: "Cerrar",
     logo: "Logo",
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
@@ -411,6 +413,7 @@ export const ui: Record<Locale, UiCopy> = {
     photographs: "Photographs",
     biography: "Biography",
     download: "Download",
+    close: "Close",
     logo: "Logo",
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
@@ -502,6 +505,7 @@ export const ui: Record<Locale, UiCopy> = {
     photographs: "Foto’s",
     biography: "Biografie",
     download: "Download",
+    close: "Sluiten",
     logo: "Logo",
     crest: "Escudo",
     illustrator: "Adobe Illustrator",
