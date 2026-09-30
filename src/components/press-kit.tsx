@@ -427,12 +427,12 @@ function PressWall({
 }) {
   return (
     <ul
-      className={`mx-auto grid max-w-6xl gap-1.5 md:grid-cols-3 xl:grid-cols-4 ${
-        wall === "flyer" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2"
+      className={`mx-auto max-w-6xl gap-1.5 md:columns-3 xl:columns-4 ${
+        wall === "flyer" ? "columns-1 sm:columns-2" : "columns-2"
       }`}
     >
       {items.map((item) => (
-        <li key={item.file} className="min-w-0">
+        <li key={item.file} className="mb-1.5 break-inside-avoid">
           <a
             href={item.src}
             download={item.file}
