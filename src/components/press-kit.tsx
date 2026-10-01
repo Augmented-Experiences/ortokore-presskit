@@ -34,7 +34,8 @@ const presskitButton =
 export function PressKit({ bios }: { bios: Bios }) {
   const [locale, setLocale] = useState<Locale>("es");
   const [copied, setCopied] = useState<string | null>(null);
-  const [leadStatus, setLeadStatus] = useState<"sent" | "error" | null>(null);
+  const [leadStatus, setLeadStatus] = useState<"sent" | "error" | "failed" | null>(null);
+  const [sending, setSending] = useState(false);
   const t = ui[locale];
   const bio = bios[locale];
   const paragraphs = bio ? bio.split(/\n+/).filter((part) => part.trim().length > 0) : [];
@@ -79,9 +80,10 @@ export function PressKit({ bios }: { bios: Bios }) {
   const copyLabel =
     copied === locale ? t.copied : copied === `fail:${locale}` ? t.copyFailed : t.copy;
 
-  function sendLead(event: FormEvent<HTMLFormElement>) {
+  async function sendLead(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -89,10 +91,25 @@ export function PressKit({ bios }: { bios: Bios }) {
       setLeadStatus("error");
       return;
     }
-    const subject = encodeURIComponent("OrtoKore");
-    const body = encodeURIComponent(`${t.leadName}: ${name}\n${t.leadEmail}: ${email}`);
-    window.location.href = `mailto:djortokore@gmail.com?subject=${subject}&body=${body}`;
-    setLeadStatus("sent");
+    setSending(true);
+    setLeadStatus(null);
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      if (!response.ok) {
+        setLeadStatus(response.status === 400 ? "error" : "failed");
+        return;
+      }
+      form.reset();
+      setLeadStatus("sent");
+    } catch {
+      setLeadStatus("failed");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -477,17 +494,17 @@ export function PressKit({ bios }: { bios: Bios }) {
               className={fieldClass}
             />
           </div>
-          <Button type="submit" className={solidButton}>
-            {t.leadSubmit}
+          <Button type="submit" className={solidButton} disabled={sending}>
+            {sending ? t.leadSending : t.leadSubmit}
           </Button>
           {leadStatus === "sent" ? (
             <p role="status" className="font-serif text-lg">
               {t.leadSent}
             </p>
           ) : null}
-          {leadStatus === "error" ? (
+          {leadStatus === "error" || leadStatus === "failed" ? (
             <p role="alert" className="font-serif text-lg">
-              {t.leadError}
+              {leadStatus === "failed" ? t.leadFailed : t.leadError}
             </p>
           ) : null}
         </form>

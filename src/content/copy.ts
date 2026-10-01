@@ -337,8 +337,10 @@ export const ui: Record<Locale, UiCopy> = {
     leadName: "Nombre",
     leadEmail: "Correo",
     leadSubmit: "Enviar",
-    leadSent: "Se abrió tu correo. Tus datos van listos para enviar.",
+    leadSending: "Enviando",
+    leadSent: "Recibí tus datos. Te contacto pronto.",
     leadError: "Revisa el nombre y el correo.",
+    leadFailed: "No se pudo enviar. Inténtalo otra vez.",
   },
   en: {
     kit: "Press kit",
@@ -435,8 +437,10 @@ export const ui: Record<Locale, UiCopy> = {
     leadName: "Name",
     leadEmail: "Email",
     leadSubmit: "Send",
-    leadSent: "Your mail app opened. Your details are ready to send.",
+    leadSending: "Sending",
+    leadSent: "Got your details. I'll write you soon.",
     leadError: "Check the name and the email.",
+    leadFailed: "Could not send. Try again.",
   },
   nl: {
     kit: "Perskit",
@@ -533,8 +537,10 @@ export const ui: Record<Locale, UiCopy> = {
     leadName: "Naam",
     leadEmail: "E-mail",
     leadSubmit: "Versturen",
-    leadSent: "Je mailprogramma is geopend. Je gegevens staan klaar om te versturen.",
+    leadSending: "Versturen…",
+    leadSent: "Ik heb je gegevens. Ik schrijf je snel.",
     leadError: "Controleer de naam en het e-mailadres.",
+    leadFailed: "Versturen mislukt. Probeer het opnieuw.",
   },
 };
 
