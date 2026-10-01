@@ -63,8 +63,10 @@ export type UiCopy = {
   leadName: string;
   leadEmail: string;
   leadSubmit: string;
+  leadSending: string;
   leadSent: string;
   leadError: string;
+  leadFailed: string;
 };
 
 export const LOCALES: Locale[] = ["es", "en", "nl"];
